@@ -218,11 +218,63 @@ public class viewRegistroProductos {
             }
         }
 
-        porcentajePedido[0] = (cantidadTipo1/cantidad);
-        porcentajePedido[1] = (cantidadTipo2/cantidad);
+        porcentajePedido[0] = (cantidadTipo1/cantidad)*100;
+        porcentajePedido[1] = (cantidadTipo2/cantidad)*100;
 
         return porcentajePedido;
     }
+
+    public static Double [] porcentajeCantidadPedidosEstado(){
+        double cantidad = 0.0, cantidadEnEspera=0.0, cantidadCancelado=0.0, cantidadAtendido=0.0;
+        Double[] porcentajeCantidad = new Double[6];
+
+        for (int i = 0; i < estadosPedido.length; i++) {
+            if (estadosPedido[i] != null){
+                cantidad++;
+            }
+            if(estadosPedido[i] != null){
+                if (estadosPedido[i].equals("en espera"))cantidadEnEspera++;
+                else if (estadosPedido[i].equals("atendido"))cantidadAtendido++;
+                else if (estadosPedido[i].equals("cancelado"))cantidadCancelado++;
+            }
+        }
+
+        porcentajeCantidad[0] = (cantidadEnEspera/cantidad)*100;
+        porcentajeCantidad[1] = cantidadEnEspera;
+        porcentajeCantidad[2] = (cantidadAtendido/cantidad)*100;
+        porcentajeCantidad[3] = cantidadAtendido;
+        porcentajeCantidad[4] = (cantidadCancelado/cantidad)*100;
+        porcentajeCantidad[5] = cantidadCancelado;
+
+        return porcentajeCantidad;
+    }
+
+    public static int cantidadPersonasNatural(){
+        int cantidad = 0;
+        for (int i = 0; i < rucCliente.length; i++) {
+
+        }
+
+        return 0;
+    }
+
+    public static Double[] porcentajeCantidadTipoPersona(){
+        double cantidad = 0.0, cantidadPersonaNatural = 0.0, cantidadPersonaJuridica0=0.0;
+        Double[] porcentajeCantidad = new Double[4];
+        int posicion = 0;
+        for (int i = 0; i < codigosCli.length; i++) {
+
+            if (codigosCli[i].equals("CLI0001")){
+
+
+            }
+
+        }
+
+
+        return porcentajeCantidad;
+    }
+
 
     public static void main(String[] args) {
 
@@ -509,7 +561,7 @@ public class viewRegistroProductos {
                             menu += "  7- Mes con mayor percentaje de ventas \n";
                             menu += "  8- Mes con menor cantidad de ventas de Persona Natural \n";
                             menu += "  9- Ventas totales por mes \n";
-                            menu += "  A- Ventas totales por mes \n";
+                            menu += "  A- Total de ventas \n";
                             menu += " (R) Retornar al menu principal \n";
                             menu += "\n";
                             menu += "     Seleccione una opcion:  ";
@@ -527,26 +579,47 @@ public class viewRegistroProductos {
                                     System.out.println();
                                     System.out.println(" *********  Reporte 02  *******\n");
                                     for (int i = 0; i < porcentajePedidosPorVendedor().length; i++) {
-                                        System.out.println(" Vendedor "+(i+1)+": "+porcentajePedidosPorVendedor()[i]);
+                                        System.out.printf(" Vendedor "+(i+1)+": %.2f %% \n", porcentajePedidosPorVendedor()[i]);
                                     }
                                     System.out.println();
                                     System.out.println(" Presionar enter para continuar ...");
                                     enter = sc.nextLine();
                                     break;
                                 case "3":
+                                    String tipoPedido = "";
                                     limpiaPantalla();
-                                    System.out.println("Reporte 03");
+                                    System.out.println();
+                                    System.out.println(" *********  Reporte 03  *******\n");
                                     for (int i = 0; i < porcentajePedidosPorTipoPedido().length; i++) {
-                                        System.out.println(porcentajePedidosPorTipoPedido()[i]);
-                                        //                                        porcentajePedidosPorTipoPedido
+                                        if (i == 0){
+                                            tipoPedido = "Externo";
+                                        }else if(i == 1){
+                                            tipoPedido = "Interno";
+                                        }
+                                        System.out.printf(tipoPedido + ": %.2f %% \n", porcentajePedidosPorTipoPedido()[i]);
                                     }
 
                                     System.out.println("Presionar enter para continuar ...");
                                     enter = sc.nextLine();
                                     break;
                                 case "4":
+                                    String texto = "", tipo = "";
                                     limpiaPantalla();
                                     System.out.println("Reporte 04");
+                                    for (int i = 0; i < porcentajeCantidadPedidosEstado().length; i++) {
+                                        if ((i % 2) == 0) texto = "Porcentaje: %.2f %% \n";
+                                        else texto = "Cantidad: %.0f \n\n";
+
+                                        if (i == 0  || i == 1){
+                                            tipo = "En Espera ";
+                                        }else if(i == 2 || i == 3){
+                                            tipo = "Atendido ";
+                                        }else if(i == 4 || i == 5){
+                                            tipo = "Cancelado ";
+                                        }
+
+                                        System.out.printf(tipo + texto, porcentajeCantidadPedidosEstado()[i]);
+                                    }
                                     System.out.println("Presionar enter para continuar ...");
                                     enter = sc.nextLine();
                                     break;
