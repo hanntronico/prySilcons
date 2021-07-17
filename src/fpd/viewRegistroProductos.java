@@ -252,29 +252,84 @@ public class viewRegistroProductos {
     public static int cantidadPersonasNatural(){
         int cantidad = 0;
         for (int i = 0; i < rucCliente.length; i++) {
-
-        }
-
-        return 0;
-    }
-
-    public static Double[] porcentajeCantidadTipoPersona(){
-        double cantidad = 0.0, cantidadPersonaNatural = 0.0, cantidadPersonaJuridica0=0.0;
-        Double[] porcentajeCantidad = new Double[4];
-        int posicion = 0;
-        for (int i = 0; i < codigosCli.length; i++) {
-
-            if (codigosCli[i].equals("CLI0001")){
-
+            if (rucCliente[i] != null){
+                    if (rucCliente[i].substring(0,2).equals("10") ){
+                        cantidad++;
+                    }
 
             }
-
         }
 
-
-        return porcentajeCantidad;
+        return cantidad;
     }
 
+    public static int cantidadPersonasJuridica(){
+        int cantidad = 0;
+        for (int i = 0; i < rucCliente.length; i++) {
+            if (rucCliente[i] != null){
+                    if (rucCliente[i].substring(0,2).equals("20") ){
+                        cantidad++;
+                    }
+            }
+        }
+
+        return cantidad;
+    }
+
+
+    public static int[] cantidadPedidosPorCliente(){
+        int cantidad = 0;
+
+        for (int i = 0; i < codigosCli.length; i++) {
+            if (codigosCli[i] != null) cantidad++;
+        }
+
+        int[] cantidadPedidos = new int[cantidad];
+
+        for (int i = 0; i < codigosCli.length; i++) {
+            if (codigosCli[i] != null) {
+
+                for (int j = 0; j < codigosCliente.length; j++) {
+                    if (codigosCli[i].equals(codigosCliente[j])) cantidadPedidos[j]++;
+                }
+
+            }
+        }
+
+        return cantidadPedidos;
+    }
+
+    public static int[] obtener_indice_odenado(String[] cantidad_producto) {
+
+        int[] ordenar_cantidad = new int[cantidad_producto.length];
+        int[] indice_cantidad = new int[cantidad_producto.length];
+
+        for (int i = 0; i < ordenar_cantidad.length; i++) {
+            ordenar_cantidad[i] = Integer.parseInt(cantidad_producto[i]);
+        }
+//      ORDENAR arreglo original en otro arreglo "ordenar_cantidad"
+        for (int i = 0; i <= ordenar_cantidad.length - 2; i++) {
+            for (int j = 1; j <= ordenar_cantidad.length - 1; j++) {
+                if (ordenar_cantidad[j] < ordenar_cantidad[j - 1]) {
+                    int temp = ordenar_cantidad[j];
+                    ordenar_cantidad[j] = ordenar_cantidad[j - 1];
+                    ordenar_cantidad[j - 1] = temp;
+                }
+            }
+        }
+
+//      BUSCA y ubica el indice y asigna en un arreglo "indice_cantidad"
+        for (int i = 0; i < ordenar_cantidad.length; i++) {
+            for (int j = 0; j < cantidad_producto.length; j++) {
+                if (ordenar_cantidad[i] == Integer.parseInt(cantidad_producto[j])) {
+                    indice_cantidad[i] = j;
+//                    System.out.println(j);
+                    j = cantidad_producto.length;
+                }
+            }
+        }
+        return indice_cantidad;
+    }
 
     public static void main(String[] args) {
 
@@ -294,17 +349,17 @@ public class viewRegistroProductos {
         codigosCliente[5] = "CLI00006";    nombresCliente[5] = "Mayra Coronado Pérez";				  documentosCliente[5] = "43698741";	rucCliente[5] = "20363614147";	direccionesCliente[5] = "direccion 1177";									telefonosCliente[5] = "963852741";    emailsCliente[5] = "mcoronado@gmail.com";
         codigosCliente[6] = "CLI00007";    nombresCliente[6] = "María del Carmen Alfaro Echeandía";	  documentosCliente[6] = "15636935";	rucCliente[6] = "10156369351";	direccionesCliente[6] = "Madrigal 631 - int B";								telefonosCliente[6] = "974654324";    emailsCliente[6] = "mcafaeche@gmail.com";
 
-        codigosPedido[0]	= "PED00001";	codigosCli[0]	= "CLI0001";	codigosTrabajador[0]	= "vendedor1";  	tiposPedido[0]	= "externo";	fechasPedido[0]	 = "14-02-2016";   fechasIngresaPedido[0]	= "15-02-2016";		fechasSalidaPedido[0]	= "18-02-2016";	  estadosPedido[0]	= "cancelado";
-        codigosPedido[1]	= "PED00002";	codigosCli[1]	= "CLI0001";	codigosTrabajador[1]	= "vendedor1";		tiposPedido[1]	= "externo";	fechasPedido[1]	 = "15-02-2016";   fechasIngresaPedido[1]	= "16-02-2016";		fechasSalidaPedido[1]	= "19-02-2016";	  estadosPedido[1]	= "en espera";
-        codigosPedido[2]	= "PED00003";	codigosCli[2]	= "CLI0002";	codigosTrabajador[2]	= "vendedor2";		tiposPedido[2]	= "externo";	fechasPedido[2]	 = "05-05-2021";   fechasIngresaPedido[2]	= "06-05-2021";		fechasSalidaPedido[2]	= "09-05-2021";	  estadosPedido[2]	= "atendido";
-        codigosPedido[3]	= "PED00004";	codigosCli[3]	= "CLI0003";	codigosTrabajador[3]	= "vendedor1";		tiposPedido[3]	= "interno";	fechasPedido[3]	 = "07-05-2021";   fechasIngresaPedido[3]	= "07-05-2021";		fechasSalidaPedido[3]	= "10-05-2021";	  estadosPedido[3]	= "atendido";
-        codigosPedido[4]	= "PED00005";	codigosCli[4]	= "CLI0004";	codigosTrabajador[4]	= "vendedor2";		tiposPedido[4]	= "interno";	fechasPedido[4]	 = "05-05-2021";   fechasIngresaPedido[4]	= "06-05-2021";		fechasSalidaPedido[4]	= "09-05-2021";	  estadosPedido[4]	= "atendido";
-        codigosPedido[5]	= "PED00006";	codigosCli[5]	= "CLI0005";	codigosTrabajador[5]	= "vendedor1";		tiposPedido[5]	= "externo";	fechasPedido[5]	 = "05-05-2021";   fechasIngresaPedido[5]	= "06-05-2021";		fechasSalidaPedido[5]	= "09-05-2021";	  estadosPedido[5]	= "cancelado";
-        codigosPedido[6]	= "PED00007";	codigosCli[6]	= "CLI0006";	codigosTrabajador[6]	= "vendedor2";		tiposPedido[6]	= "interno";	fechasPedido[6]	 = "21-05-2021";   fechasIngresaPedido[6]	= "22-05-2021";		fechasSalidaPedido[6]	= "25-05-2021";	  estadosPedido[6]	= "en espera";
-        codigosPedido[7]	= "PED00008";	codigosCli[7]	= "CLI0005";	codigosTrabajador[7]	= "vendedor3";		tiposPedido[7]	= "externo";	fechasPedido[7]	 = "22-06-2021";   fechasIngresaPedido[7]	= "23-06-2021";		fechasSalidaPedido[7]	= "26-06-2021";	  estadosPedido[7]	= "en espera";
-        codigosPedido[8]	= "PED00009";	codigosCli[8]	= "CLI0007";	codigosTrabajador[8]	= "vendedor1";		tiposPedido[8]	= "interno";	fechasPedido[8]	 = "23-06-2021";   fechasIngresaPedido[8]	= "24-06-2021";		fechasSalidaPedido[8]	= "27-06-2021";	  estadosPedido[8]	= "cancelado";
-        codigosPedido[9]	= "PED00010";	codigosCli[9]	= "CLI0007";	codigosTrabajador[9]	= "vendedor2";		tiposPedido[9]	= "externo";	fechasPedido[9]	 = "24-07-2021";   fechasIngresaPedido[9]	= "25-07-2021";		fechasSalidaPedido[9]	= "28-07-2021";	  estadosPedido[9]	= "atendido";
-        codigosPedido[10]	= "PED00011";	codigosCli[10]	= "CLI0007";	codigosTrabajador[10]	= "vendedor3";		tiposPedido[10]	= "externo";	fechasPedido[10] = "25-07-2021";   fechasIngresaPedido[10]  = "26-07-2021";		fechasSalidaPedido[10]	= "29-07-2021";	  estadosPedido[10]	= "cancelado";
+        codigosPedido[0]	= "PED00001";	codigosCli[0]	= "CLI00001";	codigosTrabajador[0]	= "vendedor1";  	tiposPedido[0]	= "externo";	fechasPedido[0]	 = "14-02-2016";   fechasIngresaPedido[0]	= "15-02-2016";		fechasSalidaPedido[0]	= "18-02-2016";	  estadosPedido[0]	= "cancelado";
+        codigosPedido[1]	= "PED00002";	codigosCli[1]	= "CLI00001";	codigosTrabajador[1]	= "vendedor1";		tiposPedido[1]	= "externo";	fechasPedido[1]	 = "15-02-2016";   fechasIngresaPedido[1]	= "16-02-2016";		fechasSalidaPedido[1]	= "19-02-2016";	  estadosPedido[1]	= "en espera";
+        codigosPedido[2]	= "PED00003";	codigosCli[2]	= "CLI00002";	codigosTrabajador[2]	= "vendedor2";		tiposPedido[2]	= "externo";	fechasPedido[2]	 = "05-05-2021";   fechasIngresaPedido[2]	= "06-05-2021";		fechasSalidaPedido[2]	= "09-05-2021";	  estadosPedido[2]	= "atendido";
+        codigosPedido[3]	= "PED00004";	codigosCli[3]	= "CLI00003";	codigosTrabajador[3]	= "vendedor1";		tiposPedido[3]	= "interno";	fechasPedido[3]	 = "07-05-2021";   fechasIngresaPedido[3]	= "07-05-2021";		fechasSalidaPedido[3]	= "10-05-2021";	  estadosPedido[3]	= "atendido";
+        codigosPedido[4]	= "PED00005";	codigosCli[4]	= "CLI00004";	codigosTrabajador[4]	= "vendedor2";		tiposPedido[4]	= "interno";	fechasPedido[4]	 = "05-05-2021";   fechasIngresaPedido[4]	= "06-05-2021";		fechasSalidaPedido[4]	= "09-05-2021";	  estadosPedido[4]	= "atendido";
+        codigosPedido[5]	= "PED00006";	codigosCli[5]	= "CLI00005";	codigosTrabajador[5]	= "vendedor1";		tiposPedido[5]	= "externo";	fechasPedido[5]	 = "05-05-2021";   fechasIngresaPedido[5]	= "06-05-2021";		fechasSalidaPedido[5]	= "09-05-2021";	  estadosPedido[5]	= "cancelado";
+        codigosPedido[6]	= "PED00007";	codigosCli[6]	= "CLI00006";	codigosTrabajador[6]	= "vendedor2";		tiposPedido[6]	= "interno";	fechasPedido[6]	 = "21-05-2021";   fechasIngresaPedido[6]	= "22-05-2021";		fechasSalidaPedido[6]	= "25-05-2021";	  estadosPedido[6]	= "en espera";
+        codigosPedido[7]	= "PED00008";	codigosCli[7]	= "CLI00005";	codigosTrabajador[7]	= "vendedor3";		tiposPedido[7]	= "externo";	fechasPedido[7]	 = "22-06-2021";   fechasIngresaPedido[7]	= "23-06-2021";		fechasSalidaPedido[7]	= "26-06-2021";	  estadosPedido[7]	= "en espera";
+        codigosPedido[8]	= "PED00009";	codigosCli[8]	= "CLI00007";	codigosTrabajador[8]	= "vendedor1";		tiposPedido[8]	= "interno";	fechasPedido[8]	 = "23-06-2021";   fechasIngresaPedido[8]	= "24-06-2021";		fechasSalidaPedido[8]	= "27-06-2021";	  estadosPedido[8]	= "cancelado";
+        codigosPedido[9]	= "PED00010";	codigosCli[9]	= "CLI00007";	codigosTrabajador[9]	= "vendedor2";		tiposPedido[9]	= "externo";	fechasPedido[9]	 = "24-07-2021";   fechasIngresaPedido[9]	= "25-07-2021";		fechasSalidaPedido[9]	= "28-07-2021";	  estadosPedido[9]	= "atendido";
+        codigosPedido[10]	= "PED00011";	codigosCli[10]	= "CLI00007";	codigosTrabajador[10]	= "vendedor3";		tiposPedido[10]	= "externo";	fechasPedido[10] = "25-07-2021";   fechasIngresaPedido[10]  = "26-07-2021";		fechasSalidaPedido[10]	= "29-07-2021";	  estadosPedido[10]	= "cancelado";
 
 
         Scanner sc = new Scanner(System.in);
@@ -556,7 +611,7 @@ public class viewRegistroProductos {
                             menu += "  2- Porcentaje de pedidos de cada vendedor \n";
                             menu += "  3- Porcentaje de pedidos de cada Tipo de Pedido \n";
                             menu += "  4- Cantidad y porcentaje de pedidos por Estado \n";
-                            menu += "  5- Cantidad y porcentaje de pedidos P. Natural o P. Juridica \n";
+                            menu += "  5- Cantidad y porcentaje de clientes P. Natural o P. Juridica \n";
                             menu += "  6- DNI, RUC e Email del cliente con mayor cantidad de pedidos  \n";
                             menu += "  7- Mes con mayor percentaje de ventas \n";
                             menu += "  8- Mes con menor cantidad de ventas de Persona Natural \n";
@@ -570,14 +625,14 @@ public class viewRegistroProductos {
                             switch (opcionRepo1) {
                                 case "1":
                                     limpiaPantalla();
-                                    System.out.println("Reporte 01");
+                                    System.out.println(" *********  Producto con mayor cantidad de pedidos  *******\n");
                                     System.out.println("Presionar enter para continuar ...");
                                     enter = sc.nextLine();
                                     break;
                                 case "2":
                                     limpiaPantalla();
                                     System.out.println();
-                                    System.out.println(" *********  Reporte 02  *******\n");
+                                    System.out.println(" *********  Porcentaje de pedidos de cada vendedor  *******\n");
                                     for (int i = 0; i < porcentajePedidosPorVendedor().length; i++) {
                                         System.out.printf(" Vendedor "+(i+1)+": %.2f %% \n", porcentajePedidosPorVendedor()[i]);
                                     }
@@ -589,7 +644,7 @@ public class viewRegistroProductos {
                                     String tipoPedido = "";
                                     limpiaPantalla();
                                     System.out.println();
-                                    System.out.println(" *********  Reporte 03  *******\n");
+                                    System.out.println(" *********  Porcentaje de pedidos de cada Tipo de Pedido  *******\n");
                                     for (int i = 0; i < porcentajePedidosPorTipoPedido().length; i++) {
                                         if (i == 0){
                                             tipoPedido = "Externo";
@@ -605,7 +660,7 @@ public class viewRegistroProductos {
                                 case "4":
                                     String texto = "", tipo = "";
                                     limpiaPantalla();
-                                    System.out.println("Reporte 04");
+                                    System.out.println(" *********  Cantidad y porcentaje de pedidos por Estado  *******\n");
                                     for (int i = 0; i < porcentajeCantidadPedidosEstado().length; i++) {
                                         if ((i % 2) == 0) texto = "Porcentaje: %.2f %% \n";
                                         else texto = "Cantidad: %.0f \n\n";
@@ -625,11 +680,27 @@ public class viewRegistroProductos {
                                     break;
                                 case "5":
                                     limpiaPantalla();
-                                    System.out.println("Reporte 05");
+                                    System.out.println(" *********  Cantidad de clientes P. Natural o P. Juridica  *******\n");
+
+                                    System.out.printf("Cantidad de Clientes Persona Natural  : %s clientes \n", cantidadPersonasNatural());
+                                    System.out.printf("Cantidad de Clientes Persona Juridica : %s clientes \n\n", cantidadPersonasJuridica());
+
+
                                     System.out.println("Presionar enter para continuar ...");
                                     enter = sc.nextLine();
                                     break;
                                 case "6":
+                                    limpiaPantalla();
+                                    System.out.println(" *********  Cantidad de clientes con con mas pedidos *******\n");
+
+//                                    for (int i = 0; i < cantidadPedidosPorCliente().length; i++)
+//                                        System.out.println(cantidadPedidosPorCliente()[i]);
+
+                                    obtener_indice_odenado( cantidadPedidosPorCliente()  );
+
+                                    System.out.println();
+                                    System.out.println("Presionar enter para continuar ...");
+                                    enter = sc.nextLine();
                                     break;
                                 case "7":
                                     break;
