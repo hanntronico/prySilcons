@@ -15,7 +15,7 @@ public class viewRegistroProductos {
     static String[] codigosCliente = new String[20];
     static String[] nombresCliente = new String[20];
     static String[] documentosCliente = new String[20];
-    static String[] rucCliente = new String[20];
+    static String[] rucsCliente = new String[20];
     static String[] direccionesCliente = new String[20];
     static String[] telefonosCliente = new String[20];
     static String[] emailsCliente = new String[20];
@@ -63,6 +63,25 @@ public class viewRegistroProductos {
         String codigoProducto = "PRO" + ceros + String.valueOf(longitudArray + 1);
         return codigoProducto;
     }
+
+    public static String generarCodigCliente() {
+        String ceros = "";
+        int longitudArray = 0;
+
+        for (int i = 0; i < codigosCliente.length; i++){
+            if (codigosCliente[i] != null){
+                longitudArray++;
+            }
+        }
+        if (longitudArray < 9) {
+            ceros = "0000";
+        } else {
+            ceros = "000";
+        }
+        String codigoCliente = "CLI" + ceros + String.valueOf(longitudArray + 1);
+        return codigoCliente;
+    }
+
 
     public static boolean registrarProducto(String nomProd, String descProd, String colorProd, String tallaProd, String precioProd) {
         int longitudArray = 0;
@@ -114,6 +133,46 @@ public class viewRegistroProductos {
 
 
             vista += "\n";
+            }
+        }
+
+        return vista;
+    }
+
+    public static String listarClientes(){
+        String vista = "";
+        String espacio = "";
+        vista += "\n";
+        vista += "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+        vista += "|  CODIGO    |    NOMBRE CLIENTE                   |  DOCUMENTO |    RUC     |           DIRECCION                              |  TELEFONO   |     EMAIL      |\n";
+        vista += "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+
+        for (int i = 0; i < codigosCliente.length; i++) {
+            if (codigosCliente[i] != null) {
+                vista += "  "+codigosCliente[i]+"     ";
+                vista += "  "+nombresCliente[i];
+
+                espacio = "";
+                for (int j = 0; j < (35-nombresCliente[i].length()) ; j++) { espacio = espacio + " "; }
+                vista += espacio + "  " + documentosCliente[i];
+
+                espacio = "";
+                for (int j = 0; j < (12-documentosCliente[i].length()) ; j++) { espacio = espacio + " "; }
+                vista += espacio + rucsCliente[i];
+
+                espacio = "";
+                for (int j = 0; j < (13-rucsCliente[i].length()) ; j++) { espacio = espacio + " "; }
+                vista += espacio + direccionesCliente[i];
+
+                espacio = "";
+                for (int j = 0; j < (50-direccionesCliente[i].length()) ; j++) { espacio = espacio + " "; }
+                vista += espacio + telefonosCliente[i];
+
+                espacio = "";
+                for (int j = 0; j < (13-telefonosCliente[i].length()) ; j++) { espacio = espacio + " "; }
+                vista += espacio + emailsCliente[i];
+
+                vista += "\n";
             }
         }
 
@@ -251,9 +310,9 @@ public class viewRegistroProductos {
 
     public static int cantidadPersonasNatural(){
         int cantidad = 0;
-        for (int i = 0; i < rucCliente.length; i++) {
-            if (rucCliente[i] != null){
-                    if (rucCliente[i].substring(0,2).equals("10") ){
+        for (int i = 0; i < rucsCliente.length; i++) {
+            if (rucsCliente[i] != null){
+                    if (rucsCliente[i].substring(0,2).equals("10") ){
                         cantidad++;
                     }
 
@@ -265,9 +324,9 @@ public class viewRegistroProductos {
 
     public static int cantidadPersonasJuridica(){
         int cantidad = 0;
-        for (int i = 0; i < rucCliente.length; i++) {
-            if (rucCliente[i] != null){
-                    if (rucCliente[i].substring(0,2).equals("20") ){
+        for (int i = 0; i < rucsCliente.length; i++) {
+            if (rucsCliente[i] != null){
+                    if (rucsCliente[i].substring(0,2).equals("20") ){
                         cantidad++;
                     }
             }
@@ -298,6 +357,102 @@ public class viewRegistroProductos {
 
         return cantidadPedidos;
     }
+
+    public static String obtenerClienteConMasPedidos(int[] pedidosPorCliente){
+        int mayor = 0, posicion = 0;
+        for (int i = 0; i < pedidosPorCliente.length; i++) {
+            if(pedidosPorCliente[i] > mayor){
+                mayor = pedidosPorCliente[i];
+                posicion = i;
+            }
+        }
+
+        return codigosCliente[posicion];
+    }
+
+    public static String listarPedidos(){
+        String vista = "";
+        String espacio = "";
+        vista += "\n";
+        vista += "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+        vista += "|  CODIGO      |    CLIENTE                  |     VENDEDOR      |    TIPO    | FECHA PEDIDO |  ESTADO  |\n";
+        vista += "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+
+        for (int i = 0; i < codigosPedido.length; i++) {
+            if (codigosPedido[i] != null) {
+                vista += "  "+codigosPedido[i]+"     ";
+                vista += "  "+codigosCli[i];
+
+                espacio = "";
+                for (int j = 0; j < (29-codigosTrabajador[i].length()) ; j++) { espacio = espacio + " "; }
+                vista += espacio + "  " + codigosTrabajador[i];
+
+                espacio = "";
+                for (int j = 0; j < (21-codigosTrabajador[i].length()) ; j++) { espacio = espacio + " "; }
+                vista += espacio + tiposPedido[i];
+
+                espacio = "";
+                for (int j = 0; j < (12-tiposPedido[i].length()) ; j++) { espacio = espacio + " "; }
+                vista += espacio + fechasPedido[i];
+
+                espacio = "";
+                for (int j = 0; j < (15-fechasPedido[i].length()) ; j++) { espacio = espacio + " "; }
+                vista += espacio + estadosPedido[i];
+
+
+                vista += "\n";
+            }
+        }
+
+        return vista;
+    }
+
+    public static String verCliente(String codCliente){
+        int posicion = 0;
+        String cadena = "";
+        for (int i = 0; i < codigosCliente.length; i++) {
+            if (codigosCliente[i] != null){
+                if (codigosCliente[i].equals(codCliente) ){
+                    posicion = i;
+                }
+            }
+        }
+        if(posicion != 0){
+            cadena += "\n";
+            cadena += "         Codigo cliente :  " + codigosCliente[posicion]+"\n";
+            cadena += "         Nombre cliente :  " + nombresCliente[posicion]+"\n";
+            cadena += "      Documento cliente :  " + documentosCliente[posicion]+"\n";
+            cadena += "            RUC cliente :  " + rucsCliente[posicion]+"\n";
+            cadena += "      Direcci\u00f3n cliente :  " + direccionesCliente[posicion]+"\n";
+            cadena += "       Telefono cliente :  " + telefonosCliente[posicion]+"\n";
+            cadena += "          Email cliente :  " + emailsCliente[posicion];
+        }else if (posicion == 0){
+            cadena = "vacio";
+        }
+
+        return cadena;
+    }
+
+
+public static boolean registrarCliente(String nombreCliente, String documentoCliente, String rucClie, String direccionCliente, String telefonoCliente, String emailCliente) {
+    int longitudArray = 0;
+    String codigoCliente = generarCodigCliente();
+
+    for (int i = 0; i < codigosCliente.length; i++) {
+        if (codigosCliente[i] != null) {
+            longitudArray++;
+        }
+    }
+    codigosCliente[longitudArray + 1] = codigoCliente;
+    nombresCliente[longitudArray + 1] = nombreCliente;
+    documentosCliente[longitudArray + 1] = documentoCliente;
+    rucsCliente[longitudArray + 1] = rucClie;
+    direccionesCliente[longitudArray + 1] = direccionCliente;
+    telefonosCliente[longitudArray + 1] = telefonoCliente;
+    emailsCliente[longitudArray + 1] = emailCliente;
+    return true;
+}
+
 
     public static int[] obtener_indice_odenado(String[] cantidad_producto) {
 
@@ -341,13 +496,13 @@ public class viewRegistroProductos {
         codigosProducto[5] = "PRO00006";   nombresProducto[5] = "Boxer Classy Navy"; 		   descripcionProducto[5] = "Boxer Classy Navy"; 			       colorProducto[5] = "blanco";     tallaProducto[5] = "S";	   precioProducto[5] = 12.00;
         codigosProducto[6] = "PRO00007";   nombresProducto[6] = "Boxer Classy Scout"; 		   descripcionProducto[6] = "algodon"; 					           colorProducto[6] = "acero";      tallaProducto[6] = "S";	   precioProducto[6] = 12.00;
 
-        codigosCliente[0] = "CLI00001";    nombresCliente[0] = "Juan Carlos Altamirano";			  documentosCliente[0] = "47715777";	rucCliente[0] = "10477157773";	direccionesCliente[0] = "Ca. El Sol 456";									telefonosCliente[0] = "987321654";    emailsCliente[0] = "jcaltam@gmail.com";
-        codigosCliente[1] = "CLI00002";    nombresCliente[1] = "Ana Diaz Mundaca";					  documentosCliente[1] = "48596879";	rucCliente[1] = "10485968797";	direccionesCliente[1] = "Chiclayo - Ca. Angamos 34";						telefonosCliente[1] = "987456981";    emailsCliente[1] = "adimun@silicons.com.pe";
-        codigosCliente[2] = "CLI00003";    nombresCliente[2] = "CONCASA S.A.C.";					  documentosCliente[2] = "44889966";	rucCliente[2] = "20951463257";	direccionesCliente[2] = "Av. San Luis nro 1365";			 				telefonosCliente[2] = "987633144";    emailsCliente[2] = "jcaceres@gmail.com";
-        codigosCliente[3] = "CLI00004";    nombresCliente[3] = "Jorge Luis Padilla";				  documentosCliente[3] = "44112233";	rucCliente[3] = "10441122336";	direccionesCliente[3] = "Av. Libertadores Nro 156 - Trujillo";			    telefonosCliente[3] = "987654321";    emailsCliente[3] = "jlpadilla@hotmail.com";
-        codigosCliente[4] = "CLI00005";    nombresCliente[4] = "Joe Postigo Ortigas";				  documentosCliente[4] = "48961236";	rucCliente[4] = "10489612367";	direccionesCliente[4] = "Ca. Campeonato Nro 5632 - Dpto 304 - Surquillo";	telefonosCliente[4] = "998665332";    emailsCliente[4] = "jpostigo_orti@gmail.com";
-        codigosCliente[5] = "CLI00006";    nombresCliente[5] = "Mayra Coronado Pérez";				  documentosCliente[5] = "43698741";	rucCliente[5] = "20363614147";	direccionesCliente[5] = "direccion 1177";									telefonosCliente[5] = "963852741";    emailsCliente[5] = "mcoronado@gmail.com";
-        codigosCliente[6] = "CLI00007";    nombresCliente[6] = "María del Carmen Alfaro Echeandía";	  documentosCliente[6] = "15636935";	rucCliente[6] = "10156369351";	direccionesCliente[6] = "Madrigal 631 - int B";								telefonosCliente[6] = "974654324";    emailsCliente[6] = "mcafaeche@gmail.com";
+        codigosCliente[0] = "CLI00001";    nombresCliente[0] = "Juan Carlos Altamirano";			  documentosCliente[0] = "47715777";    rucsCliente[0] = "10477157773";	direccionesCliente[0] = "Ca. El Sol 456";									telefonosCliente[0] = "987321654";    emailsCliente[0] = "jcaltam@gmail.com";
+        codigosCliente[1] = "CLI00002";    nombresCliente[1] = "Ana Diaz Mundaca";					  documentosCliente[1] = "48596879";  	rucsCliente[1] = "10485968797";	direccionesCliente[1] = "Chiclayo - Ca. Angamos 34";						telefonosCliente[1] = "987456981";    emailsCliente[1] = "adimun@silicons.com.pe";
+        codigosCliente[2] = "CLI00003";    nombresCliente[2] = "CONCASA S.A.C.";					  documentosCliente[2] = "44889966";  	rucsCliente[2] = "20951463257";	direccionesCliente[2] = "Av. San Luis nro 1365";			 				telefonosCliente[2] = "987633144";    emailsCliente[2] = "jcaceres@gmail.com";
+        codigosCliente[3] = "CLI00004";    nombresCliente[3] = "Jorge Luis Padilla";				  documentosCliente[3] = "44112233";  	rucsCliente[3] = "10441122336";	direccionesCliente[3] = "Av. Libertadores Nro 156 - Trujillo";			    telefonosCliente[3] = "987654321";    emailsCliente[3] = "jlpadilla@hotmail.com";
+        codigosCliente[4] = "CLI00005";    nombresCliente[4] = "Joe Postigo Ortigas";				  documentosCliente[4] = "48961236";  	rucsCliente[4] = "10489612367";	direccionesCliente[4] = "Ca. Campeonato Nro 5632 - Dpto 304 - Surquillo";	telefonosCliente[4] = "998665332";    emailsCliente[4] = "jpostigo_orti@gmail.com";
+        codigosCliente[5] = "CLI00006";    nombresCliente[5] = "Mayra Coronado Pérez";				  documentosCliente[5] = "43698741";  	rucsCliente[5] = "20363614147";	direccionesCliente[5] = "direccion 1177";									telefonosCliente[5] = "963852741";    emailsCliente[5] = "mcoronado@gmail.com";
+        codigosCliente[6] = "CLI00007";    nombresCliente[6] = "Maria del Carmen Alfaro Echeandia";	  documentosCliente[6] = "15636935";  	rucsCliente[6] = "10156369351";	direccionesCliente[6] = "Madrigal 631 - int B";								telefonosCliente[6] = "974654324";    emailsCliente[6] = "mcafaeche@gmail.com";
 
         codigosPedido[0]	= "PED00001";	codigosCli[0]	= "CLI00001";	codigosTrabajador[0]	= "vendedor1";  	tiposPedido[0]	= "externo";	fechasPedido[0]	 = "14-02-2016";   fechasIngresaPedido[0]	= "15-02-2016";		fechasSalidaPedido[0]	= "18-02-2016";	  estadosPedido[0]	= "cancelado";
         codigosPedido[1]	= "PED00002";	codigosCli[1]	= "CLI00001";	codigosTrabajador[1]	= "vendedor1";		tiposPedido[1]	= "externo";	fechasPedido[1]	 = "15-02-2016";   fechasIngresaPedido[1]	= "16-02-2016";		fechasSalidaPedido[1]	= "19-02-2016";	  estadosPedido[1]	= "en espera";
@@ -363,7 +518,7 @@ public class viewRegistroProductos {
 
 
         Scanner sc = new Scanner(System.in);
-        int opcion = 0, opcionPro = 0, opcionRepo=0;
+        int opcion = 0, opcionPro = 0, opcionCli = 0, opcionRepo=0;
         String opcionRepo1 = "";
         String menu = "";
         String enter = "";
@@ -416,7 +571,7 @@ public class viewRegistroProductos {
                 menu += "\n";
                 menu += "  1- Gestionar Productos \n";
                 menu += "  2- Gestionar Clientes \n";
-                menu += "  3- Gestionar Pedidos \n";
+                menu += "  3- Listar Pedidos \n";
                 menu += "  4- Reportes \n";
                 menu += "  5- Finalizar \n";
                 menu += "     Seleccione una opcion:";
@@ -439,7 +594,7 @@ public class viewRegistroProductos {
                             menu += "  1- Buscar Productos \n";
                             menu += "  2- Registrar Productos \n";
                             menu += "  3- Modificar Productos \n";
-                            menu += "  4- Eliminar Productos \n";
+                            menu += "  4- Listar Productos \n";
                             menu += "  5- Volver al menu principal \n";
                             menu += "\n";
                             menu += "     Seleccione una opcion:";
@@ -580,21 +735,192 @@ public class viewRegistroProductos {
                                 case 4:
                                     limpiaPantalla();
                                     System.out.println(" ");
-                                    System.out.println("********* ELIMINAR PRODUCTO *********");
+                                    System.out.println("********* LISTAR PRODUCTOS *********");
                                     String ffff = sc.nextLine();
                                     System.out.println( listarProductos() );
                                     System.out.println("Presionar enter para continuar ...");
                                     String enter2 = sc.nextLine();
+                                    break;
                             }
                         } while (opcionPro != 5);
 
 
                         break;
                     case 2:
+                        do {
+                            limpiaPantalla();
+                            System.out.print("");
+                            menu = "\n";
+                            menu += "  ******************************************\n";
+                            menu += "  |                                        |\n";
+                            menu += "  |           GESTION DE CLIENTES          |\n";
+                            menu += "  |                                        |\n";
+                            menu += "  ******************************************\n";
+                            menu += "\n";
+                            menu += "  1- Buscar Cliente \n";
+                            menu += "  2- Registrar Cliente \n";
+                            menu += "  3- Modificar Cliente \n";
+                            menu += "  4- Listar Clientes \n";
+                            menu += "  5- Volver al menu principal \n";
+                            menu += "\n";
+                            menu += "     Seleccione una opcion:";
+                            System.out.println(menu);
+
+////                            String fffff = sc.nextLine();
+//                            System.out.println( listarProductos() );
+//                            System.out.println("Seleccione una opcion: ");
+                            opcionCli = sc.nextInt();
+
+
+                            switch (opcionCli) {
+                                case 1:
+                                    limpiaPantalla();
+                                    System.out.println("");
+                                    System.out.println("********* B\u00fasqueda de Cliente *********\n");
+                                    String bus1 = sc.nextLine();
+                                    System.out.printf("Ingrese c\u00f3digo del Cliente: ");
+                                    String codClienteBus1 = sc.nextLine();
+                                    System.out.println(verCliente(codClienteBus1));
+                                    System.out.println();
+                                    System.out.println("Presionar enter para continuar ...");
+                                    enter = sc.nextLine();
+                                    break;
+                                case 2:
+                                    limpiaPantalla();
+                                    System.out.println(" ");
+                                    System.out.println("********* REGISTRAR CLIENTE *********\n");
+                                    String fff = sc.nextLine();
+                                    System.out.printf("Ingrese nombre del cliente: ");
+                                    String nombreCliente = sc.nextLine();
+                                    System.out.printf("Ingrese documento de indentidad del cliente: ");
+                                    String documentoCliente = sc.nextLine();
+                                    System.out.printf("Ingrese RUC del cliente: ");
+                                    String rucCliente = sc.nextLine();
+                                    System.out.printf("Ingrese direcci\u00f3n del cliente: ");
+                                    String direccionCliente = sc.nextLine();
+                                    System.out.printf("Ingrese telefono del cliente: ");
+                                    String telefonoCliente = sc.nextLine();
+                                    System.out.printf("Ingrese email del cliente: ");
+                                    String emailCliente = sc.nextLine();
+
+                                    if (registrarCliente(nombreCliente, documentoCliente, rucCliente, direccionCliente, telefonoCliente, emailCliente)) {
+//                                        System.out.println( listarClientes() );
+                                        System.out.println("Presionar enter para continuar ...");
+                                        enter = sc.nextLine();
+                                    }
+                                    break;
+                                case 3:
+//                                    limpiaPantalla();
+//                                    System.out.println(" ");
+//                                    System.out.println("*********** MODIFICAR PRODUCTO ***********\n");
+//                                    String esp = sc.nextLine();
+//                                    System.out.printf("Ingrese c\u00f3digo del Producto: ");
+//                                    String codProductoBus2 = sc.nextLine();
+//
+//                                    if ( verProducto(codProductoBus2).equals("vacio") ) {
+//
+//                                        System.out.println("Producto no encontrado");
+//                                        System.out.println("Presionar enter para continuar ...");
+//                                        enter = sc.nextLine();
+//
+//
+//                                    }else{
+//
+//                                        System.out.println(verProducto(codProductoBus2));
+//                                        System.out.println();
+//                                        System.out.printf("Desea modificar nombre del Producto? [S/N]");
+//                                        String respNombre = sc.nextLine();
+//                                        switch (respNombre) {
+//                                            case "s":
+//                                                System.out.println("Ingrese nuevo nombre Producto: ");
+//                                                String editNombreProducto = sc.nextLine();
+//                                                modificarProducto(codProductoBus2, 1, editNombreProducto);
+//                                                break;
+//                                            case "n":
+//                                                break;
+//                                        }
+//
+//                                        System.out.println();
+//                                        System.out.printf("Desea modificar descripci\u00f3n del Producto? [S/N]");
+//                                        String respDescripcion = sc.nextLine();
+//                                        switch (respDescripcion) {
+//                                            case "s":
+//                                                System.out.println("Ingrese nueva descripci\u00f3n del Producto: ");
+//                                                String editDescripProducto = sc.nextLine();
+//                                                modificarProducto(codProductoBus2, 2, editDescripProducto);
+//                                                break;
+//                                            case "n":
+//                                                break;
+//                                        }
+//
+//                                        System.out.println();
+//                                        System.out.printf("Desea modificar color del Producto? [S/N]");
+//                                        String respColor = sc.nextLine();
+//                                        switch (respColor) {
+//                                            case "s":
+//                                                System.out.println("Ingrese nuevo color del Producto: ");
+//                                                String editColorProducto = sc.nextLine();
+//                                                modificarProducto(codProductoBus2, 3, editColorProducto);
+//                                                break;
+//                                            case "n":
+//                                                break;
+//                                        }
+//
+//                                        System.out.println();
+//                                        System.out.printf("Desea modificar talla del Producto? [S/N]");
+//                                        String respTalla = sc.nextLine();
+//                                        switch (respTalla) {
+//                                            case "s":
+//                                                System.out.println("Ingrese nueva talla del Producto: ");
+//                                                String editColorProducto = sc.nextLine();
+//                                                modificarProducto(codProductoBus2, 4, editColorProducto);
+//                                                break;
+//                                            case "n":
+//                                                break;
+//                                        }
+//
+//                                        System.out.println();
+//                                        System.out.printf("Desea modificar precio del Producto? [S/N]");
+//                                        String respPrecio = sc.nextLine();
+//                                        switch (respPrecio) {
+//                                            case "s":
+//                                                System.out.println("Ingrese nuevo precio del Producto: ");
+//                                                String editPrecioProducto = sc.nextLine();
+//                                                modificarProducto(codProductoBus2, 5, editPrecioProducto);
+//                                                break;
+//                                            case "n":
+//                                                break;
+//                                        }
+//
+//                                        System.out.println( listarProductos() );
+//                                        System.out.println("Presionar enter para continuar ...");
+//                                        enter = sc.nextLine();
+//
+//                                    }
+
+
+                                    break;
+                                case 4:
+                                    limpiaPantalla();
+                                    System.out.println(" ");
+                                    System.out.println("********* LISTAR CLIENTES *********");
+                                    String ffff = sc.nextLine();
+                                    System.out.println( listarClientes() );
+                                    System.out.println("Presionar enter para continuar ...");
+                                    String enter2 = sc.nextLine();
+                                    break;
+                            }
+                        } while (opcionCli != 5);
 
                         break;
                     case 3:
-
+                        limpiaPantalla();
+                        System.out.print("");
+                        System.out.println("********* LISTAR PEDIDOS *********");
+                        String ffff = sc.nextLine();
+                        System.out.println( listarPedidos() );
+                        System.out.println("Presionar enter para continuar ...");
+                        String enter2 = sc.nextLine();
                         break;
                     case 4:
                         do {
@@ -607,16 +933,16 @@ public class viewRegistroProductos {
                             menu += "  |                                        |\n";
                             menu += "  ******************************************\n";
                             menu += "\n";
-                            menu += "  1- Producto con mayor cantidad de pedidos \n";
+                            menu += "  1- Mostrar todos los productos \n";
                             menu += "  2- Porcentaje de pedidos de cada vendedor \n";
                             menu += "  3- Porcentaje de pedidos de cada Tipo de Pedido \n";
                             menu += "  4- Cantidad y porcentaje de pedidos por Estado \n";
                             menu += "  5- Cantidad y porcentaje de clientes P. Natural o P. Juridica \n";
                             menu += "  6- DNI, RUC e Email del cliente con mayor cantidad de pedidos  \n";
-                            menu += "  7- Mes con mayor percentaje de ventas \n";
-                            menu += "  8- Mes con menor cantidad de ventas de Persona Natural \n";
-                            menu += "  9- Ventas totales por mes \n";
-                            menu += "  A- Total de ventas \n";
+//                            menu += "  7- Mes con mayor percentaje de ventas \n";
+//                            menu += "  8- Mes con menor cantidad de ventas de Persona Natural \n";
+//                            menu += "  9- Ventas totales por mes \n";
+//                            menu += "  A- Total de ventas \n";
                             menu += " (R) Retornar al menu principal \n";
                             menu += "\n";
                             menu += "     Seleccione una opcion:  ";
@@ -625,7 +951,10 @@ public class viewRegistroProductos {
                             switch (opcionRepo1) {
                                 case "1":
                                     limpiaPantalla();
-                                    System.out.println(" *********  Producto con mayor cantidad de pedidos  *******\n");
+                                    System.out.println(" ");
+                                    System.out.println("********* Mostrar todos los productos *********");
+                                    String fffff = sc.nextLine();
+                                    System.out.println( listarProductos() );
                                     System.out.println("Presionar enter para continuar ...");
                                     enter = sc.nextLine();
                                     break;
@@ -691,29 +1020,29 @@ public class viewRegistroProductos {
                                     break;
                                 case "6":
                                     limpiaPantalla();
-                                    System.out.println(" *********  Cantidad de clientes con con mas pedidos *******\n");
+                                    System.out.println(" *********  Cantidad de clientes con con m\u00e1s pedidos *******\n");
 
 //                                    for (int i = 0; i < cantidadPedidosPorCliente().length; i++)
 //                                        System.out.println(cantidadPedidosPorCliente()[i]);
 
-                                    obtener_indice_odenado( cantidadPedidosPorCliente()  );
+                                    System.out.printf("El Cliente con m\u00e1s pedidos es : %s \n", obtenerClienteConMasPedidos( cantidadPedidosPorCliente() ) );
 
                                     System.out.println();
                                     System.out.println("Presionar enter para continuar ...");
                                     enter = sc.nextLine();
                                     break;
-                                case "7":
-                                    break;
-                                case "8":
-                                    break;
-                                case "9":
-                                    break;
-                                case "A":
-                                    limpiaPantalla();
-                                    System.out.println("Reporte A");
-                                    System.out.println("Presionar enter para continuar ...");
-                                    enter = sc.nextLine();
-                                    break;
+//                                case "7":
+//                                    break;
+//                                case "8":
+//                                    break;
+//                                case "9":
+//                                    break;
+//                                case "A":
+//                                    limpiaPantalla();
+//                                    System.out.println("Reporte A");
+//                                    System.out.println("Presionar enter para continuar ...");
+//                                    enter = sc.nextLine();
+//                                    break;
 
                             }
 
@@ -731,37 +1060,6 @@ public class viewRegistroProductos {
             System.out.println("Usuario o Password incorrecto!!");
         }
 
-
-//        do {
-//            System.out.print("");
-//            menu="";
-//            menu+="******** Menú de opciones *******\n";
-//            menu+="1- Ingrese edad años \n";
-//            menu+="2- Ingrese edad meses \n";
-//            menu+="3- Finalizar \n";
-//            menu+="Seleccione una opción:";
-//            System.out.println(menu);
-//
-//            Integer opcionT = sc.nextInt();
-//            switch(opcion){
-//                case 1:
-//                    System.out.println("Ingrese edad en años: ");
-//                    String edadAniosT = sc.nextLine();
-//                    edadAnios = Integer.parseInt( edadAniosT );
-//                    System.out.println("La edad en meses es: "+((edadAnios*12)+edadMeses)+" meses \n");
-//                    break;
-//                case 2:
-//                    System.out.println("Ingrese edad en meses: ");
-//                    String edadMesesT = sc.nextLine();
-//                    edadMeses = Integer.parseInt(edadMesesT);
-//
-//                    edadAnios = edadMeses / 12;
-//                    meses = edadMeses % 12;
-//
-//                    System.out.println("La edad en meses es: "+edadAnios+" años "+meses+" mes(es) \n");
-//                    break;
-//            }
-//        }while(opcion != 3);
 
 
     }
