@@ -3,7 +3,7 @@ package fpd;
 import java.io.Console;
 import java.util.Scanner;
 
-public class viewRegistroProductos {
+public class proyectoSilcons {
 
     static String[] codigosProducto = new String[20];
     static String[] nombresProducto = new String[20];
@@ -112,27 +112,27 @@ public class viewRegistroProductos {
 
         for (int i = 0; i < nombresProducto.length; i++) {
             if (nombresProducto[i] != null) {
-            vista += "  "+codigosProducto[i]+"     ";
-            vista += "  "+nombresProducto[i];
+                vista += "  "+codigosProducto[i]+"     ";
+                vista += "  "+nombresProducto[i];
 
-            espacio = "";
-            for (int j = 0; j < (30-nombresProducto[i].length()) ; j++) { espacio = espacio + " "; }
-            vista += espacio + "  " + descripcionProducto[i];
+                espacio = "";
+                for (int j = 0; j < (30-nombresProducto[i].length()) ; j++) { espacio = espacio + " "; }
+                vista += espacio + "  " + descripcionProducto[i];
 
-            espacio = "";
-            for (int j = 0; j < (39-descripcionProducto[i].length()) ; j++) { espacio = espacio + " "; }
-            vista += espacio + colorProducto[i];
+                espacio = "";
+                for (int j = 0; j < (39-descripcionProducto[i].length()) ; j++) { espacio = espacio + " "; }
+                vista += espacio + colorProducto[i];
 
-            espacio = "";
-            for (int j = 0; j < (16-colorProducto[i].length()) ; j++) { espacio = espacio + " "; }
-            vista += espacio + tallaProducto[i];
+                espacio = "";
+                for (int j = 0; j < (16-colorProducto[i].length()) ; j++) { espacio = espacio + " "; }
+                vista += espacio + tallaProducto[i];
 
-            espacio = "";
-            for (int j = 0; j < (10-tallaProducto[i].length()) ; j++) { espacio = espacio + " "; }
-            vista += espacio + precioProducto[i];
+                espacio = "";
+                for (int j = 0; j < (10-tallaProducto[i].length()) ; j++) { espacio = espacio + " "; }
+                vista += espacio + precioProducto[i];
 
 
-            vista += "\n";
+                vista += "\n";
             }
         }
 
@@ -312,9 +312,9 @@ public class viewRegistroProductos {
         int cantidad = 0;
         for (int i = 0; i < rucsCliente.length; i++) {
             if (rucsCliente[i] != null){
-                    if (rucsCliente[i].substring(0,2).equals("10") ){
-                        cantidad++;
-                    }
+                if (rucsCliente[i].substring(0,2).equals("10") ){
+                    cantidad++;
+                }
 
             }
         }
@@ -326,9 +326,9 @@ public class viewRegistroProductos {
         int cantidad = 0;
         for (int i = 0; i < rucsCliente.length; i++) {
             if (rucsCliente[i] != null){
-                    if (rucsCliente[i].substring(0,2).equals("20") ){
-                        cantidad++;
-                    }
+                if (rucsCliente[i].substring(0,2).equals("20") ){
+                    cantidad++;
+                }
             }
         }
 
@@ -434,24 +434,24 @@ public class viewRegistroProductos {
     }
 
 
-public static boolean registrarCliente(String nombreCliente, String documentoCliente, String rucClie, String direccionCliente, String telefonoCliente, String emailCliente) {
-    int longitudArray = 0;
-    String codigoCliente = generarCodigCliente();
+    public static boolean registrarCliente(String nombreCliente, String documentoCliente, String rucClie, String direccionCliente, String telefonoCliente, String emailCliente) {
+        int longitudArray = 0;
+        String codigoCliente = generarCodigCliente();
 
-    for (int i = 0; i < codigosCliente.length; i++) {
-        if (codigosCliente[i] != null) {
-            longitudArray++;
+        for (int i = 0; i < codigosCliente.length; i++) {
+            if (codigosCliente[i] != null) {
+                longitudArray++;
+            }
         }
+        codigosCliente[longitudArray + 1] = codigoCliente;
+        nombresCliente[longitudArray + 1] = nombreCliente;
+        documentosCliente[longitudArray + 1] = documentoCliente;
+        rucsCliente[longitudArray + 1] = rucClie;
+        direccionesCliente[longitudArray + 1] = direccionCliente;
+        telefonosCliente[longitudArray + 1] = telefonoCliente;
+        emailsCliente[longitudArray + 1] = emailCliente;
+        return true;
     }
-    codigosCliente[longitudArray + 1] = codigoCliente;
-    nombresCliente[longitudArray + 1] = nombreCliente;
-    documentosCliente[longitudArray + 1] = documentoCliente;
-    rucsCliente[longitudArray + 1] = rucClie;
-    direccionesCliente[longitudArray + 1] = direccionCliente;
-    telefonosCliente[longitudArray + 1] = telefonoCliente;
-    emailsCliente[longitudArray + 1] = emailCliente;
-    return true;
-}
 
 
     public static int[] obtener_indice_odenado(String[] cantidad_producto) {
@@ -535,27 +535,27 @@ public static boolean registrarCliente(String nombreCliente, String documentoCli
         menu += "\n";
         menu += "\n";
 
-//        menu+="Ingrese usuario: ";
-//        System.out.printf(menu);
-//        String usuario = sc.nextLine();
-////        System.out.printf("Ingrese password: ");
-////        String password = sc.nextLine();
-//        Console cnsl = null;
-//        String alpha = null;
-//        String password = "";
-//        try {
-//            cnsl = System.console();
-//            if (cnsl != null) {
-//                char[] pwd = cnsl.readPassword("Password: ");
-//                password = String.valueOf(pwd);
-//            }
-//
-//        } catch(Exception ex) {
-//            ex.printStackTrace();
-//        }
+        menu+="Ingrese usuario: ";
+        System.out.printf(menu);
+        String usuario = sc.nextLine();
+//        System.out.printf("Ingrese password: ");
+//        String password = sc.nextLine();
+        Console cnsl = null;
+        String alpha = null;
+        String password = "";
+        try {
+            cnsl = System.console();
+            if (cnsl != null) {
+                char[] pwd = cnsl.readPassword("Password: ");
+                password = String.valueOf(pwd);
+            }
 
-        String usuario = "Hanntronico";
-        String password = "123456";
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+
+//        String usuario = "Hanntronico";
+//        String password = "123456";
 
         if (verificaLogueo(usuario, password)) {
 
@@ -981,5 +981,7 @@ public static boolean registrarCliente(String nombreCliente, String documentoCli
 
 
     }
+
+
 
 }
