@@ -900,7 +900,6 @@ public class proyectoSilcons {
                                         }
                                         System.out.printf(tipoPedido + ": %.2f %% \n", porcentajePedidosPorTipoPedido()[i]);
                                     }
-
                                     System.out.println("Presionar enter para continuar ...");
                                     enter = sc.nextLine();
                                     break;
